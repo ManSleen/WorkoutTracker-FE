@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { axiosWithAuth } from "./util/axiosWithAuth";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 import "./App.scss";
+import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./components/LandingPage.js";
 import Dashboard from "./components/Dashboard.js";
 import Login from "./components/Login.js";

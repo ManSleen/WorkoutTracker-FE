@@ -36,17 +36,15 @@ const Dashboard = ({ history, setIsLoading }) => {
       value={{ userInfo: userInfo, addWorkout: addWorkout }}
     >
       <div>
-        <h1>User Dashboard</h1>
-        {userInfo && <h2>Welcome {userInfo.username}!</h2>}
+        {userInfo && <h1>Welcome {userInfo.username}!</h1>}
         <WorkoutForm />
         {userInfo && userInfo.workouts.length > 0 ? (
           userInfo.workouts
             .sort((a, b) => {
-              console.log("a.date: ", a.date, "b.date: ", b.date);
               return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
             })
             .map(workout => (
-              <Link to={`/workout/${workout._id}`}>
+              <Link key={workout._id} to={`/workout/${workout._id}`}>
                 <div>
                   <h3>
                     {workout.name} - {workout.date.substr(0, 10)}

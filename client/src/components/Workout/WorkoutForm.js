@@ -16,17 +16,16 @@ const WorkoutForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log("submitted!");
     await addWorkout(workout, userInfo._id);
+    setWorkout({ name: "", duration: 0, date: Date.now() });
   };
 
   const { name, duration, date } = workout;
-  console.log("userInfo: ", userInfo);
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label for="name">Name</label>
+        <label htmlFor="name">Name</label>
         <input
           type="text"
           placeholder="Workout Name"
@@ -34,7 +33,7 @@ const WorkoutForm = () => {
           value={name}
           onChange={handleChanges}
         />
-        <label for="duration">Workout Duration</label>
+        <label htmlFor="duration">Workout Duration</label>
         <input
           type="number"
           placeholder="Duration"
@@ -42,7 +41,7 @@ const WorkoutForm = () => {
           value={duration}
           onChange={handleChanges}
         />
-        <label for="date">Date</label>
+        <label htmlFor="date">Date</label>
         <input
           type="date"
           placeholder="Duration"

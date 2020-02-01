@@ -30,6 +30,7 @@ function App() {
       console.log(error);
     }
   };
+
   return (
     <div className="App">
       <header className="App-header">Workout Tracker</header>

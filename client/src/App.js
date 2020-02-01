@@ -8,32 +8,39 @@ import LandingPage from "./components/LandingPage.js";
 import Dashboard from "./components/Dashboard.js";
 import Login from "./components/Login.js";
 import Register from "./components/Register.js";
+import Workout from "./components/Workout/Workout";
 
 function App() {
   const [user, setUser] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const login = async user => {
     try {
+      setIsLoading(true);
       const res = await axiosWithAuth().post("/auth/login", user);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user._id));
+      localStorage.setItem("user", res.data.user._id);
       setUser(res.data.user);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   const register = async user => {
+    setIsLoading(true);
     try {
       await axiosWithAuth().post("/auth/register", user);
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   return (
     <div className="App">
       <header className="App-header">Workout Tracker</header>
+      {isLoading && <div>LOADING.....</div>}
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route
@@ -46,7 +53,20 @@ function App() {
           path="/register"
           render={props => <Register register={register} {...props} />}
         />
-        <ProtectedRoute exact path="/dash" component={Dashboard} user={user} />
+        <ProtectedRoute
+          exact
+          path="/dash"
+          component={Dashboard}
+          user={user}
+          setIsLoading={setIsLoading}
+        />
+        <ProtectedRoute
+          exact
+          path="/workout/:workoutId"
+          component={Workout}
+          user={user}
+          setIsLoading={setIsLoading}
+        />
         <Route path="*" component={() => <h1>404 NOT FOUND</h1>} />
       </Switch>
     </div>

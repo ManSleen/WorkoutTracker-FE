@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Set from "./Set";
 import SetForm from "./SetForm";
 import { axiosWithAuth } from "../../util/axiosWithAuth";
@@ -6,6 +6,10 @@ import { axiosWithAuth } from "../../util/axiosWithAuth";
 const Exercise = ({ exercise, workoutId, getWorkout }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [exerciseName, setExerciseName] = useState("");
+
+  useEffect(() => {
+    setExerciseName(exercise.name);
+  }, [exercise]);
 
   const deleteExercise = async e => {
     e.preventDefault();
@@ -47,7 +51,9 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
         <input onChange={handleChanges} type="text" value={exerciseName} />
       ) : (
         <h3
-          onClick={() => setIsEditing(!isEditing)}
+          onClick={() => {
+            setIsEditing(!isEditing);
+          }}
           style={{ display: "inline" }}
         >
           {exercise.name}
@@ -55,7 +61,7 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
       )}
       <span>
         <button onClick={e => deleteExercise(e)}>Delete</button>
-        {isEditing ? (
+        {isEditing && (
           <button
             onClick={e => {
               setIsEditing(!isEditing);
@@ -63,15 +69,6 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
             }}
           >
             Save
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setIsEditing(!isEditing);
-              setExerciseName(exercise.name);
-            }}
-          >
-            Edit
           </button>
         )}
       </span>

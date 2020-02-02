@@ -36,7 +36,7 @@ const ExerciseForm = ({ workoutId, getWorkout }) => {
         <label htmlFor="name">Name</label>
         <input
           type="text"
-          placeholder="Workout Name"
+          placeholder="Exercise Name"
           name="name"
           value={name}
           onChange={handleChanges}

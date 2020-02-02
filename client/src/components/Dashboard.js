@@ -31,6 +31,36 @@ const Dashboard = ({ history, setIsLoading }) => {
     setIsLoading(false);
   };
 
+  const updateWorkout = async (workout, workoutId) => {
+    setIsLoading(true);
+    const userId = localStorage.getItem("user");
+    const workoutObj = {
+      name: workout.name,
+      duration: workout.duration,
+      date: workout.date
+    };
+    try {
+      await axiosWithAuth().put(
+        `/users/${userId}/workouts/${workoutId}`,
+        workoutObj
+      );
+      fetchUserData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteWorkout = async workoutId => {
+    console.log("clicked delete!");
+    const userId = localStorage.getItem("user");
+    try {
+      await axiosWithAuth().delete(`/users/${userId}/workouts/${workoutId}`);
+      fetchUserData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{ userInfo: userInfo, addWorkout: addWorkout }}
@@ -45,6 +75,8 @@ const Dashboard = ({ history, setIsLoading }) => {
             })
             .map(workout => (
               <WorkoutCard
+                updateWorkout={updateWorkout}
+                deleteWorkout={deleteWorkout}
                 key={workout._id}
                 fetchUserData={fetchUserData}
                 workout={workout}

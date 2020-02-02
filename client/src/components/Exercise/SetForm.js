@@ -60,7 +60,7 @@ const SetForm = ({ exercise, workoutId, getWorkout }) => {
           onChange={handleChanges}
         />
         <br />
-        <button type="submit">Add Exercise</button>
+        <button type="submit">Add Set</button>
       </form>
     </div>
   );

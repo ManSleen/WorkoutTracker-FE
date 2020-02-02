@@ -31,6 +31,7 @@ const Workout = ({ match }) => {
               getWorkout={getWorkout}
               key={exercise._id}
               exercise={exercise}
+              workoutId={workoutId}
             />
           ))
         : "No exercises for this workout"}

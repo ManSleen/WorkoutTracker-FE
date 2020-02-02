@@ -3,6 +3,7 @@ import { axiosWithAuth } from "../../util/axiosWithAuth";
 
 import Exercise from "../Exercise/Exercise";
 import ExerciseForm from "../Exercise/ExerciseForm";
+import { Link } from "react-router-dom";
 
 const Workout = ({ match }) => {
   const [workout, setWorkout] = useState();
@@ -23,6 +24,7 @@ const Workout = ({ match }) => {
   }, []);
   return (
     <div>
+      <Link to="/dash">Back to dashboard</Link>
       {workout && <h1>{workout.name}</h1>}
       <ExerciseForm getWorkout={getWorkout} workoutId={workoutId} />
       {workout && workout.exercises.length > 0

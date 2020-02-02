@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 const Workout = ({ match }) => {
   const [workout, setWorkout] = useState();
   const { workoutId } = match.params;
-
-  console.log("match.params", match.params);
   const getWorkout = async () => {
     const userId = localStorage.getItem("user");
     const res = await axiosWithAuth().get(

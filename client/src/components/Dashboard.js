@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { axiosWithAuth } from "../util/axiosWithAuth";
 import { UserContext } from "../context/UserContext";
 import WorkoutForm from "./Workout/WorkoutForm";
-import Workout from "./Workout/Workout";
+import WorkoutCard from "./Workout/WorkoutCard";
 
 const Dashboard = ({ history, setIsLoading }) => {
   const [userInfo, setUserInfo] = useState();
@@ -31,6 +31,36 @@ const Dashboard = ({ history, setIsLoading }) => {
     setIsLoading(false);
   };
 
+  const updateWorkout = async (workout, workoutId) => {
+    setIsLoading(true);
+    const userId = localStorage.getItem("user");
+    const workoutObj = {
+      name: workout.name,
+      duration: workout.duration,
+      date: workout.date
+    };
+    try {
+      await axiosWithAuth().put(
+        `/users/${userId}/workouts/${workoutId}`,
+        workoutObj
+      );
+      fetchUserData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteWorkout = async workoutId => {
+    console.log("clicked delete!");
+    const userId = localStorage.getItem("user");
+    try {
+      await axiosWithAuth().delete(`/users/${userId}/workouts/${workoutId}`);
+      fetchUserData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{ userInfo: userInfo, addWorkout: addWorkout }}
@@ -44,13 +74,13 @@ const Dashboard = ({ history, setIsLoading }) => {
               return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
             })
             .map(workout => (
-              <Link key={workout._id} to={`/workout/${workout._id}`}>
-                <div>
-                  <h3>
-                    {workout.name} - {workout.date.substr(0, 10)}
-                  </h3>
-                </div>
-              </Link>
+              <WorkoutCard
+                updateWorkout={updateWorkout}
+                deleteWorkout={deleteWorkout}
+                key={workout._id}
+                fetchUserData={fetchUserData}
+                workout={workout}
+              />
             ))
         ) : (
           <p>You haven't added any workouts yet!</p>

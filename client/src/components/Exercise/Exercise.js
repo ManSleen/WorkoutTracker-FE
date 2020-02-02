@@ -24,7 +24,17 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
         <button onClick={e => deleteExercise(e)}>Delete</button>
       </span>
       {exercise.sets.length > 0 ? (
-        exercise.sets.map(set => <Set key={set._id} set={set} />)
+        exercise.sets
+          .sort((a, b) => a.number - b.number)
+          .map(set => (
+            <Set
+              exerciseId={exercise._id}
+              workoutId={workoutId}
+              key={set._id}
+              set={set}
+              getWorkout={getWorkout}
+            />
+          ))
       ) : (
         <div>No sets in this exercise yet!</div>
       )}

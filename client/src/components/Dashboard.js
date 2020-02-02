@@ -44,7 +44,11 @@ const Dashboard = ({ history, setIsLoading }) => {
               return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
             })
             .map(workout => (
-              <WorkoutCard fetchUserData={fetchUserData} workout={workout} />
+              <WorkoutCard
+                key={workout._id}
+                fetchUserData={fetchUserData}
+                workout={workout}
+              />
             ))
         ) : (
           <p>You haven't added any workouts yet!</p>

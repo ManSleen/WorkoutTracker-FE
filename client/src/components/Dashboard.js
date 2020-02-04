@@ -11,7 +11,6 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Drawer from "@material-ui/core/Drawer";
 import Tooltip from "@material-ui/core/Tooltip";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Dashboard = ({ history, setIsLoading }) => {
+const Dashboard = ({ setIsLoading }) => {
   const classes = useStyles();
 
   const [userInfo, setUserInfo] = useState();
@@ -87,7 +86,6 @@ const Dashboard = ({ history, setIsLoading }) => {
 
   const deleteWorkout = async workoutId => {
     setIsLoading(true);
-    console.log("clicked delete!");
     const userId = localStorage.getItem("user");
     try {
       await axiosWithAuth().delete(`/users/${userId}/workouts/${workoutId}`);

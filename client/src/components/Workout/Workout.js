@@ -7,8 +7,6 @@ import ExerciseForm from "../Exercise/ExerciseForm";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import EditIcon from "@material-ui/icons/Edit";
 import Container from "@material-ui/core/Container";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import List from "@material-ui/core/List";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";

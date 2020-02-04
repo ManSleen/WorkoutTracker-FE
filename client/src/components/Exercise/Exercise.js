@@ -1,11 +1,46 @@
 import React, { useState, useEffect } from "react";
+
 import Set from "./Set";
 import SetForm from "./SetForm";
 import { axiosWithAuth } from "../../util/axiosWithAuth";
 
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Divider from "@material-ui/core/Divider";
+import TextField from "@material-ui/core/TextField";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  },
+  nested: {
+    paddingLeft: "50px"
+  }
+}));
+
 const Exercise = ({ exercise, workoutId, getWorkout }) => {
+  const classes = useStyles();
+
   const [isEditing, setIsEditing] = useState(false);
   const [exerciseName, setExerciseName] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+    console.log("clicked exercise!");
+    console.log(open);
+  };
 
   useEffect(() => {
     setExerciseName(exercise.name);
@@ -46,52 +81,66 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
   };
 
   return (
-    <div style={{ margin: "20px 0" }}>
-      {isEditing ? (
-        <input onChange={handleChanges} type="text" value={exerciseName} />
-      ) : (
-        <h3
-          onClick={() => {
-            setIsEditing(!isEditing);
-          }}
-          style={{ display: "inline" }}
-        >
-          {exercise.name}
-        </h3>
-      )}
-      <span>
-        <button onClick={e => deleteExercise(e)}>Delete</button>
-        {isEditing && (
-          <button
-            onClick={e => {
-              setIsEditing(!isEditing);
-              updateExercise(e);
-            }}
-          >
-            Save
-          </button>
+    <div>
+      <ListItem button onClick={handleClick}>
+        {isEditing ? (
+          <TextField
+            onChange={handleChanges}
+            type="text"
+            value={exerciseName}
+          />
+        ) : (
+          <>
+            <ListItemIcon>
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItemIcon>
+
+            <ListItemText primary={exercise.name} />
+
+            <ListItemIcon onClick={() => setIsEditing(true)}>
+              <EditIcon />
+            </ListItemIcon>
+            <ListItemIcon onClick={e => deleteExercise(e)}>
+              <DeleteIcon />
+            </ListItemIcon>
+          </>
         )}
-      </span>
-      {exercise.sets.length > 0 ? (
-        exercise.sets
-          .sort((a, b) => a.number - b.number)
-          .map(set => (
-            <Set
-              exerciseId={exercise._id}
-              workoutId={workoutId}
-              key={set._id}
-              set={set}
-              getWorkout={getWorkout}
-            />
-          ))
-      ) : (
-        <div>No sets in this exercise yet!</div>
-      )}
-      <SetForm
-        getWorkout={getWorkout}
-        exercise={exercise}
-        workoutId={workoutId}
-      />
+        <span>
+          {isEditing && (
+            <button
+              onClick={e => {
+                setIsEditing(!isEditing);
+                updateExercise(e);
+              }}
+            >
+              Save
+            </button>
+          )}
+        </span>
+
+        <Divider />
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        {exercise.sets.length > 0 &&
+          exercise.sets
+            .sort((a, b) => a.number - b.number)
+            .map(set => (
+              <Set
+                exerciseId={exercise._id}
+                workoutId={workoutId}
+                key={set._id}
+                set={set}
+                getWorkout={getWorkout}
+              />
+            ))}
+        <ListItem>
+          <SetForm
+            getWorkout={getWorkout}
+            exerciseId={exercise._id}
+            workoutId={workoutId}
+          />
+        </ListItem>
+      </Collapse>
     </div>
   );
 };

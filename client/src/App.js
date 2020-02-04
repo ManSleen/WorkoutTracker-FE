@@ -40,8 +40,9 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar isLoading={isLoading} />
       {isLoading && <div>LOADING.....</div>}
+
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route

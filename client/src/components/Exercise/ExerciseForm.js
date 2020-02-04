@@ -1,7 +1,28 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../../util/axiosWithAuth";
 
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 300
+    }
+  },
+  button: {
+    margin: theme.spacing(2)
+  }
+}));
+
 const ExerciseForm = ({ workoutId, getWorkout }) => {
+  const classes = useStyles();
+
   const [exercise, setExercise] = useState({
     name: ""
   });
@@ -31,19 +52,29 @@ const ExerciseForm = ({ workoutId, getWorkout }) => {
 
   const { name } = exercise;
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          placeholder="Exercise Name"
-          name="name"
-          value={name}
-          onChange={handleChanges}
-        />
-
-        <button type="submit">Add Exercise</button>
-      </form>
+    <div style={{ textAlign: "center", padding: "50px 0" }}>
+      <Container maxWidth="sm">
+        <Typography>Add an Exercise</Typography>
+        <form onSubmit={handleSubmit} className={classes.root}>
+          <TextField
+            type="text"
+            placeholder="Exercise Name"
+            name="name"
+            value={name}
+            onChange={handleChanges}
+          />
+          <br />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            size="large"
+            type="submit"
+          >
+            Add Exercise
+          </Button>
+        </form>
+      </Container>
     </div>
   );
 };

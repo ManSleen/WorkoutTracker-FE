@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: lightgray;
+  height: 100vh;
 }
 
 .App-logo {
@@ -35,4 +37,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.landing-container {
+  padding: 100px;
 }

@@ -18,7 +18,10 @@ const LandingPage = ({ history }) => {
     <div className="landing-container">
       {localStorage.getItem("token") && history.push("/dash")}
       <Container maxWidth="sm">
-        <h1>Sign up or log in to start tracking your workouts</h1>
+        <h1>
+          Sign Up or Log In
+          <br /> to start tracking your workouts
+        </h1>
         <Button
           variant="contained"
           component={Link}
@@ -27,9 +30,10 @@ const LandingPage = ({ history }) => {
           className={classes.button}
           size="large"
         >
-          Register
+          Sign Up
         </Button>
         <br />
+
         <Button
           variant="contained"
           component={Link}

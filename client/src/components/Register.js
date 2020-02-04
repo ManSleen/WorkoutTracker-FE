@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Register = ({ register, history }) => {
+const Register = ({ register, history, setIsLoading }) => {
   const classes = useStyles();
 
   const [credentials, setCredentials] = useState({
@@ -28,9 +28,11 @@ const Register = ({ register, history }) => {
   };
 
   const handleSubmit = async e => {
+    setIsLoading(true);
     e.preventDefault();
     await register(credentials);
     history.push("/login");
+    setIsLoading(false);
   };
 
   return (
@@ -73,7 +75,7 @@ const Register = ({ register, history }) => {
           size="large"
           type="submit"
         >
-          Register
+          Sign Me Up!
         </Button>
       </form>
     </div>

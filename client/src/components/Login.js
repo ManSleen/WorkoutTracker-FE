@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = ({ login, history }) => {
+const Login = ({ login, history, setIsLoading }) => {
   const classes = useStyles();
 
   const [credentials, setCredentials] = useState({
@@ -28,8 +28,10 @@ const Login = ({ login, history }) => {
   };
 
   const handleSubmit = async e => {
+    setIsLoading(true);
     e.preventDefault();
     await login(credentials);
+    setIsLoading(false);
     history.push("/dash");
   };
 

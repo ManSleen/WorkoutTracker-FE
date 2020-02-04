@@ -7,8 +7,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Divider from "@material-ui/core/Divider";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Box from "@material-ui/core/Box";
 import SetForm from "./SetForm";
 
 const useStyles = makeStyles(theme => ({
@@ -68,25 +70,42 @@ const Set = ({ set, workoutId, exerciseId, getWorkout }) => {
         </>
       ) : (
         <ListItem className={classes.nested}>
-          <Checkbox
-            checked={completed}
-            onChange={completeSet}
-            value="primary"
-            inputProps={{ "aria-label": "primary checkbox" }}
-          />
-          <ListItemText primary={`${number}.`} />
-          <ListItemText primary={`${reps} reps`} />
-          <ListItemText primary={`x`} />
-          <ListItemText primary={`${weight} lbs.`} />
-
-          <ListItemIcon onClick={() => setIsEditing(true)}>
-            <EditIcon style={{ fontSize: 15 }} />
-          </ListItemIcon>
-          <ListItemIcon onClick={deleteSet}>
-            <DeleteIcon style={{ fontSize: 15 }} />
-          </ListItemIcon>
+          <Box
+            display="flex"
+            flexFlow="row nowrap"
+            justifyContent="flex-start"
+            width="100%"
+            alignItems="center"
+          >
+            <Box
+              width="40%"
+              display="flex"
+              flexFlow="row nowrap"
+              alignItems="center"
+            >
+              <Checkbox
+                checked={completed}
+                onChange={completeSet}
+                value="primary"
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
+              <ListItemText primary={`${number}.`} />
+              <ListItemText primary={`${reps} reps`} />
+              <ListItemText primary={`x`} />
+              <ListItemText primary={`${weight} lbs.`} />
+            </Box>
+            <Box>
+              <ListItemIcon onClick={() => setIsEditing(true)}>
+                <EditIcon style={{ fontSize: 15 }} />
+              </ListItemIcon>
+              <ListItemIcon onClick={deleteSet}>
+                <DeleteIcon style={{ fontSize: 15 }} />
+              </ListItemIcon>
+            </Box>
+          </Box>
         </ListItem>
       )}
+      <Divider />
     </List>
   );
 };

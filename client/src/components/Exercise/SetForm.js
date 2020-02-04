@@ -76,8 +76,11 @@ const SetForm = ({
   const { number, weight, reps } = setInfo;
 
   return (
-    <div style={{ margin: "0 auto" }}>
-      <form className={classes.root}>
+    <div style={{ marginLeft: "50px" }}>
+      <form
+        style={{ display: "flex", alignItems: "center" }}
+        className={classes.root}
+      >
         <TextField
           type="number"
           placeholder="Set Number"

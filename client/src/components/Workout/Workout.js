@@ -16,6 +16,8 @@ import Drawer from "@material-ui/core/Drawer";
 import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
 import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     verticalAlign: "middle"
   },
   fab: {
-    position: "absolute",
+    position: "fixed",
     bottom: theme.spacing(4),
     right: theme.spacing(4)
   }
@@ -86,71 +88,112 @@ const Workout = ({ match }) => {
         }}
       >
         <Container>
-          <Card className={classes.root}>
-            {isEditing ? (
-              <>
-                <TextField
-                  type="text"
-                  placeholder="Workout Name"
-                  name="name"
-                  value={workout.name}
-                  onChange={handleChanges}
-                />
-                <TextField
-                  type="number"
-                  placeholder="Duration (mins)"
-                  name="duration"
-                  value={workout.duration}
-                  onChange={handleChanges}
-                />
-                <TextField
-                  type="date"
-                  placeholder="Date"
-                  name="date"
-                  value={workout.date}
-                  onChange={handleChanges}
-                />
-                <CheckRoundedIcon
-                  onClick={e => {
-                    setIsEditing(false);
-                    updateWorkout(e);
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <CardHeader
-                  title={workout.name}
-                  subheader={`${workout.date.substr(0, 10)} - ${
-                    workout.duration
-                  } mins`}
-                  action={
-                    <ListItemIcon
-                      onClick={() => {
-                        setIsEditing(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </ListItemIcon>
-                  }
-                />
-              </>
-            )}
+          {isEditing ? (
+            <>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                flexDirection="row"
+                p={1}
+                m={1}
+              >
+                <Box p={1}>
+                  <TextField
+                    inputProps={{
+                      style: {
+                        fontSize: "3rem",
+                        lineHeight: "3rem"
+                      }
+                    }}
+                    label="Workout Name"
+                    type="text"
+                    placeholder="Workout Name"
+                    name="name"
+                    value={workout.name}
+                    onChange={handleChanges}
+                  />
+                  <br />
+                  <TextField
+                    label="Date"
+                    type="date"
+                    placeholder="Date"
+                    name="date"
+                    value={workout.date.substr(0, 10)}
+                    onChange={handleChanges}
+                  />
+                  <br />
+                  <TextField
+                    label="Duration (mins)"
+                    type="number"
+                    placeholder="Duration (mins)"
+                    name="duration"
+                    value={workout.duration}
+                    onChange={handleChanges}
+                  />
+                </Box>
+                <Box alignSelf="center" p={1}>
+                  <ListItemIcon
+                    style={{ minWidth: 0, cursor: "pointer" }}
+                    onClick={e => {
+                      setIsEditing(false);
+                      updateWorkout(e);
+                    }}
+                  >
+                    <CheckRoundedIcon />
+                  </ListItemIcon>
+                </Box>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                flexDirection="row"
+                p={1}
+                m={1}
+              >
+                <Box p={1}>
+                  <Typography gutterBottom variant="h2">
+                    <strong>{workout.name}</strong>
+                  </Typography>
+                  <Typography variant="h5">
+                    <strong>{workout.date.substr(0, 10)}</strong>
+                  </Typography>
+                  <Typography variant="h6">{`Duration: ${workout.duration} mins`}</Typography>
+                </Box>
+                <Box alignSelf="center" p={1}>
+                  <ListItemIcon
+                    style={{ minWidth: 0, cursor: "pointer" }}
+                    onClick={() => {
+                      setIsEditing(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </ListItemIcon>
+                </Box>
+              </Box>
+            </>
+          )}
 
-            <List>
-              {workout.exercises.length > 0
-                ? workout.exercises.map(exercise => (
-                    <Exercise
-                      getWorkout={getWorkout}
-                      key={exercise._id}
-                      exercise={exercise}
-                      workoutId={workoutId}
-                    />
-                  ))
-                : "No exercises for this workout"}
-            </List>
-          </Card>
+          <List>
+            {workout.exercises.length > 0 ? (
+              workout.exercises.map(exercise => (
+                <Exercise
+                  getWorkout={getWorkout}
+                  key={exercise._id}
+                  exercise={exercise}
+                  workoutId={workoutId}
+                />
+              ))
+            ) : (
+              <p style={{ marginLeft: "20px" }}>
+                No exercises for this workout
+              </p>
+            )}
+          </List>
         </Container>
+
         <Tooltip title="Add an Exercise">
           <Fab
             color="primary"

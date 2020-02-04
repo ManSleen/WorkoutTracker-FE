@@ -12,6 +12,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Drawer from "@material-ui/core/Drawer";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper
   },
   fab: {
-    position: "absolute",
+    position: "fixed",
     bottom: theme.spacing(4),
     right: theme.spacing(4)
   }
@@ -81,9 +82,11 @@ const Dashboard = ({ history, setIsLoading }) => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const deleteWorkout = async workoutId => {
+    setIsLoading(true);
     console.log("clicked delete!");
     const userId = localStorage.getItem("user");
     try {
@@ -92,58 +95,73 @@ const Dashboard = ({ history, setIsLoading }) => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
-  return (
-    <UserContext.Provider
-      value={{ userInfo: userInfo, addWorkout: addWorkout }}
-    >
-      <div>
-        <Container maxWidth="sm">
-          {userInfo && <h1>Welcome {userInfo.username}!</h1>}
-          <List
-            className={classes.list}
-            subheader={
-              <ListSubheader component="div" id="nested-list-subheader">
-                Workouts
-              </ListSubheader>
-            }
-          >
-            {userInfo && userInfo.workouts.length > 0 ? (
-              userInfo.workouts
-                .sort((a, b) => {
-                  return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
-                })
-                .map(workout => (
-                  <WorkoutCard
-                    updateWorkout={updateWorkout}
-                    deleteWorkout={deleteWorkout}
-                    key={workout._id}
-                    fetchUserData={fetchUserData}
-                    workout={workout}
-                  />
-                ))
-            ) : (
-              <p>You haven't added any workouts yet!</p>
+  if (userInfo) {
+    return (
+      <UserContext.Provider
+        value={{ userInfo: userInfo, addWorkout: addWorkout }}
+      >
+        <div style={{ paddingTop: "40px" }}>
+          <Container>
+            {userInfo && (
+              <>
+                <Typography gutterBottom variant="h3">
+                  Welcome back <strong>{userInfo.username}!</strong>
+                  <span
+                    style={{ fontSize: "2.5rem" }}
+                    role="img"
+                    aria-label="muscle emoji"
+                  >
+                    💪
+                  </span>
+                </Typography>
+              </>
             )}
-          </List>
-
-          <Tooltip title="Add a New Workout">
-            <Fab
-              color="primary"
-              className={classes.fab}
-              onClick={toggleForm(true)}
-            >
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Container>
-        <Drawer anchor="bottom" open={showForm} onClose={toggleForm(false)}>
-          <WorkoutForm setShowForm={setShowForm} />
-        </Drawer>
-      </div>
-    </UserContext.Provider>
-  );
+            <div style={{ marginTop: "60px", textAlign: "left" }}>
+              <Typography gutterBottom variant="h5">
+                <strong>Your Past Workouts</strong>
+              </Typography>
+              <List className={classes.list}>
+                {userInfo && userInfo.workouts.length > 0 ? (
+                  userInfo.workouts
+                    .sort((a, b) => {
+                      return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
+                    })
+                    .map(workout => (
+                      <WorkoutCard
+                        updateWorkout={updateWorkout}
+                        deleteWorkout={deleteWorkout}
+                        key={workout._id}
+                        fetchUserData={fetchUserData}
+                        workout={workout}
+                      />
+                    ))
+                ) : (
+                  <p>You haven't added any workouts yet!</p>
+                )}
+              </List>
+            </div>
+            <Tooltip title="Add a New Workout">
+              <Fab
+                color="primary"
+                className={classes.fab}
+                onClick={toggleForm(true)}
+              >
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+          </Container>
+          <Drawer anchor="bottom" open={showForm} onClose={toggleForm(false)}>
+            <WorkoutForm setShowForm={setShowForm} />
+          </Drawer>
+        </div>
+      </UserContext.Provider>
+    );
+  } else {
+    return "loading...";
+  }
 };
 
 export default Dashboard;

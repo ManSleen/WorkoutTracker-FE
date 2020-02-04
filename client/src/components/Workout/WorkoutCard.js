@@ -73,11 +73,16 @@ const WorkoutCard = ({ workout, deleteWorkout, updateWorkout }) => {
           />
         )}
 
-        <ListItemSecondaryAction>
-          <ListItemIcon onClick={() => deleteWorkout(workout._id)}>
-            <DeleteIcon />
-          </ListItemIcon>
-        </ListItemSecondaryAction>
+        <ListItemIcon
+          style={{ minWidth: 0 }}
+          onClick={e => {
+            deleteWorkout(workout._id);
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <DeleteIcon />
+        </ListItemIcon>
       </ListItem>
       <Divider />
     </>

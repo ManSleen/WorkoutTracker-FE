@@ -6,11 +6,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
-    textAlign: "left"
+    textAlign: "center",
+    flexGrow: 1
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -26,32 +28,25 @@ const NavBar = ({ history }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <FitnessCenterIcon />
           <Typography
             variant="h6"
-            edge="start"
-            title="title"
+            title="Workout Tracker"
             color="inherit"
             className={classes.title}
           >
-            Workout Tracker
+            <Link to="/dash">Workout Tracker</Link>
           </Typography>
 
-          {localStorage.getItem("token") ? (
+          {localStorage.getItem("token") && (
             <>
-              <Link to="/dash">Dashboard</Link>
-              <button
+              <ExitToAppIcon
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   history.push("/");
                   localStorage.clear();
                 }}
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/register">Register</Link>
-              <Link to="/login">Log In</Link>
+              />
             </>
           )}
         </Toolbar>

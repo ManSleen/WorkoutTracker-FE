@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
-import { axiosWithAuth } from "../../util/axiosWithAuth";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import Divider from "@material-ui/core/Divider";
+import TextField from "@material-ui/core/TextField";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
 
 const WorkoutCard = ({ workout, deleteWorkout, updateWorkout }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -19,61 +28,59 @@ const WorkoutCard = ({ workout, deleteWorkout, updateWorkout }) => {
   };
 
   return (
-    <div style={{ margin: "15px 0" }}>
-      {isEditing ? (
-        <div style={{ display: "inline" }}>
-          <input
-            name="name"
-            onChange={handleChanges}
-            value={workoutInfo.name}
-            style={{ display: "inline" }}
-          />
-          <input
-            name="duration"
-            onChange={handleChanges}
-            value={workoutInfo.duration}
-            type="number"
-            style={{ display: "inline", marginLeft: "25px" }}
-          />
-          <input
-            name="date"
-            onChange={handleChanges}
-            value={workoutInfo.date}
-            type="date"
-            style={{ display: "inline", marginLeft: "25px" }}
-          />
-        </div>
-      ) : (
-        <Link key={workout._id} to={`/workout/${workout._id}`}>
-          <div style={{ display: "inline" }}>
-            <h3 style={{ display: "inline" }}>{workout.name}</h3>
-            <h4 style={{ display: "inline", marginLeft: "25px" }}>
-              {workout.duration} mins
-            </h4>
-            <h4 style={{ display: "inline", marginLeft: "25px" }}>
-              {workout.date.substr(0, 10)}
-            </h4>
-          </div>
-        </Link>
-      )}
-
-      <span>
+    <>
+      <ListItem
+        button
+        component={props => <Link to={`/workout/${workout._id}`} {...props} />}
+      >
         {isEditing ? (
-          <button
-            onClick={() => {
-              setIsEditing(false);
-              updateWorkout(workoutInfo, workout._id);
-            }}
-          >
-            Save
-          </button>
+          <div>
+            <form>
+              <TextField
+                autoComplete="off"
+                name="name"
+                onChange={handleChanges}
+                value={workoutInfo.name}
+              />
+              <br />
+              <TextField
+                autoComplete="off"
+                name="duration"
+                onChange={handleChanges}
+                value={workoutInfo.duration}
+                type="number"
+              />
+              <br />
+              <TextField
+                autoComplete="off"
+                name="date"
+                onChange={handleChanges}
+                value={workoutInfo.date}
+                type="date"
+              />
+            </form>
+          </div>
         ) : (
-          <button onClick={() => setIsEditing(true)}>Edit</button>
+          <ListItemText
+            primary={workout.name}
+            secondary={`${
+              workout.exercises.length === 1
+                ? `${workout.exercises.length} exercise`
+                : workout.exercises.length > 1
+                ? `${workout.exercises.length} exercises`
+                : "No exercises in this workout"
+            } - ${workout.date.substr(0, 10)}`}
+          />
         )}
 
-        <button onClick={() => deleteWorkout(workout._id)}>Delete</button>
-      </span>
-    </div>
+        <ListItemSecondaryAction>
+          <ListItemIcon onClick={() => deleteWorkout(workout._id)}>
+            <DeleteIcon />
+          </ListItemIcon>
+        </ListItemSecondaryAction>
+      </ListItem>
+      <Divider />
+    </>
   );
 };
 

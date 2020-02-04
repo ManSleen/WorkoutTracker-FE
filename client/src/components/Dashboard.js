@@ -1,12 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+
+import List from "@material-ui/core/List";
+import { makeStyles } from "@material-ui/core/styles";
 import { axiosWithAuth } from "../util/axiosWithAuth";
 import { UserContext } from "../context/UserContext";
 import WorkoutForm from "./Workout/WorkoutForm";
 import WorkoutCard from "./Workout/WorkoutCard";
+import Container from "@material-ui/core/Container";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import Drawer from "@material-ui/core/Drawer";
+import Tooltip from "@material-ui/core/Tooltip";
+import ListSubheader from "@material-ui/core/ListSubheader";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper
+  },
+  list: {
+    backgroundColor: theme.palette.background.paper
+  },
+  fab: {
+    position: "absolute",
+    bottom: theme.spacing(4),
+    right: theme.spacing(4)
+  }
+}));
 
 const Dashboard = ({ history, setIsLoading }) => {
+  const classes = useStyles();
+
   const [userInfo, setUserInfo] = useState();
+
+  const [showForm, setShowForm] = useState(false);
+
+  const toggleForm = open => e => {
+    if (e.type === "keydown" && (e.key === "Tab" || e.key === "Shift")) {
+      return;
+    }
+    setShowForm(open);
+  };
 
   const fetchUserData = async () => {
     setIsLoading(true);
@@ -66,34 +99,48 @@ const Dashboard = ({ history, setIsLoading }) => {
       value={{ userInfo: userInfo, addWorkout: addWorkout }}
     >
       <div>
-        {userInfo && <h1>Welcome {userInfo.username}!</h1>}
-        <WorkoutForm />
-        {userInfo && userInfo.workouts.length > 0 ? (
-          userInfo.workouts
-            .sort((a, b) => {
-              return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
-            })
-            .map(workout => (
-              <WorkoutCard
-                updateWorkout={updateWorkout}
-                deleteWorkout={deleteWorkout}
-                key={workout._id}
-                fetchUserData={fetchUserData}
-                workout={workout}
-              />
-            ))
-        ) : (
-          <p>You haven't added any workouts yet!</p>
-        )}
+        <Container maxWidth="sm">
+          {userInfo && <h1>Welcome {userInfo.username}!</h1>}
+          <List
+            className={classes.list}
+            subheader={
+              <ListSubheader component="div" id="nested-list-subheader">
+                Workouts
+              </ListSubheader>
+            }
+          >
+            {userInfo && userInfo.workouts.length > 0 ? (
+              userInfo.workouts
+                .sort((a, b) => {
+                  return b.date < a.date ? -1 : b.date > a.date ? 1 : 0;
+                })
+                .map(workout => (
+                  <WorkoutCard
+                    updateWorkout={updateWorkout}
+                    deleteWorkout={deleteWorkout}
+                    key={workout._id}
+                    fetchUserData={fetchUserData}
+                    workout={workout}
+                  />
+                ))
+            ) : (
+              <p>You haven't added any workouts yet!</p>
+            )}
+          </List>
 
-        <button
-          onClick={() => {
-            localStorage.clear();
-            history.push("/");
-          }}
-        >
-          Log Out
-        </button>
+          <Tooltip title="Add a New Workout">
+            <Fab
+              color="primary"
+              className={classes.fab}
+              onClick={toggleForm(true)}
+            >
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Container>
+        <Drawer anchor="bottom" open={showForm} onClose={toggleForm(false)}>
+          <WorkoutForm setShowForm={setShowForm} />
+        </Drawer>
       </div>
     </UserContext.Provider>
   );

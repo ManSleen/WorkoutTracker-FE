@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard.js";
 import Login from "./components/Login.js";
 import Register from "./components/Register.js";
 import Workout from "./components/Workout/Workout";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [user, setUser] = useState();
@@ -39,8 +40,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">Workout Tracker</header>
+      <NavBar isLoading={isLoading} />
       {isLoading && <div>LOADING.....</div>}
+
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route

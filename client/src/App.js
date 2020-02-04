@@ -10,6 +10,17 @@ import Login from "./components/Login.js";
 import Register from "./components/Register.js";
 import Workout from "./components/Workout/Workout";
 import NavBar from "./components/NavBar";
+import { css } from "@emotion/core";
+import PulseLoader from "react-spinners/PulseLoader";
+
+const override = css`
+  margin: 0 auto;
+  background-color: none;
+  position: absolute;
+  top: 45%;
+  left: 48%;
+  color: #2196f3;
+`;
 
 function App() {
   const [user, setUser] = useState();
@@ -41,19 +52,37 @@ function App() {
   return (
     <div className="App">
       <NavBar isLoading={isLoading} />
-      {isLoading && <div>LOADING.....</div>}
+      {isLoading && (
+        <div className="loader-container">
+          <PulseLoader
+            css={override}
+            size={20}
+            color={"#2196f3"}
+            loading={isLoading}
+            margin={3}
+          />
+        </div>
+      )}
 
       <Switch>
         <Route exact path="/" component={LandingPage} />
         <Route
           exact
           path="/login"
-          render={props => <Login login={login} {...props} />}
+          render={props => (
+            <Login setIsLoading={setIsLoading} login={login} {...props} />
+          )}
         />
         <Route
           exact
           path="/register"
-          render={props => <Register register={register} {...props} />}
+          render={props => (
+            <Register
+              setIsLoading={setIsLoading}
+              register={register}
+              {...props}
+            />
+          )}
         />
         <ProtectedRoute
           exact

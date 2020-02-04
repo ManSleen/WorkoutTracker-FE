@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: lightgray;
+
   height: 100vh;
 }
 
@@ -41,4 +41,19 @@
 
 .landing-container {
   padding: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.loader-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.767);
+  z-index: 99999;
 }

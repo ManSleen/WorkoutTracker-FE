@@ -158,7 +158,7 @@ const Dashboard = ({ setIsLoading }) => {
       </UserContext.Provider>
     );
   } else {
-    return "loading...";
+    return null;
   }
 };
 

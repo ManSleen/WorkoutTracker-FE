@@ -24,7 +24,6 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
 
   const handleClick = () => {
     setOpen(!open);
-    console.log("clicked exercise!");
     console.log(open);
   };
 
@@ -34,7 +33,6 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
 
   const deleteExercise = async e => {
     e.preventDefault();
-    console.log("clicked delete exercise!");
     const userId = localStorage.getItem("user");
     try {
       await axiosWithAuth().delete(
@@ -48,7 +46,6 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
 
   const updateExercise = async e => {
     e.preventDefault();
-    console.log(exerciseName);
     const userId = localStorage.getItem("user");
     const exerciseObj = { name: exerciseName };
     try {

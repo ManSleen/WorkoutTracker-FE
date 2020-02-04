@@ -43,7 +43,6 @@ const Set = ({ set, workoutId, exerciseId, getWorkout }) => {
 
   const deleteSet = async e => {
     e.preventDefault();
-    console.log("clicked delete set!");
     const userId = localStorage.getItem("user");
     try {
       await axiosWithAuth().delete(

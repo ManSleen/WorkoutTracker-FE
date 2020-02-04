@@ -207,7 +207,7 @@ const Workout = ({ match }) => {
       </div>
     );
   } else {
-    return "loading...";
+    return null;
   }
 };
 

@@ -15,11 +15,13 @@ import AddIcon from "@material-ui/icons/Add";
 import Drawer from "@material-ui/core/Drawer";
 import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
+import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
 
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 600,
-    margin: "0 auto"
+    margin: "0 auto",
+    verticalAlign: "middle"
   },
   fab: {
     position: "absolute",
@@ -76,7 +78,13 @@ const Workout = ({ match }) => {
 
   if (workout) {
     return (
-      <div style={{ textAlign: "left", marginTop: "20px" }}>
+      <div
+        style={{
+          textAlign: "left",
+          marginTop: "20px",
+          verticalAlign: "middle"
+        }}
+      >
         <Container>
           <Card className={classes.root}>
             {isEditing ? (
@@ -102,14 +110,12 @@ const Workout = ({ match }) => {
                   value={workout.date}
                   onChange={handleChanges}
                 />
-                <button
+                <CheckRoundedIcon
                   onClick={e => {
                     setIsEditing(false);
                     updateWorkout(e);
                   }}
-                >
-                  Save
-                </button>
+                />
               </>
             ) : (
               <>

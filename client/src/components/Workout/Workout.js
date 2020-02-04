@@ -14,6 +14,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Drawer from "@material-ui/core/Drawer";
 import Tooltip from "@material-ui/core/Tooltip";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +32,7 @@ const Workout = ({ match }) => {
   const classes = useStyles();
 
   const [workout, setWorkout] = useState();
-  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
   const { workoutId } = match.params;
@@ -52,7 +53,22 @@ const Workout = ({ match }) => {
     setWorkout(workout);
   };
 
-  const updateWorkout = () => {};
+  const handleChanges = e => {
+    setWorkout({ ...workout, [e.target.name]: e.target.value });
+  };
+
+  const updateWorkout = async e => {
+    e.preventDefault();
+    const userId = localStorage.getItem("user");
+    try {
+      await axiosWithAuth().put(
+        `/users/${userId}/workouts/${workoutId}`,
+        workout
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getWorkout();
@@ -63,21 +79,33 @@ const Workout = ({ match }) => {
       <div style={{ textAlign: "left", marginTop: "20px" }}>
         <Container>
           <Card className={classes.root}>
-            {isEditingName ? (
+            {isEditing ? (
               <>
-                <input
-                  defaultValue={workout.name}
-                  style={{
-                    fontSize: "2em",
-                    fontWeight: "bold",
-                    margin: ".67em auto",
-                    display: "block",
-                    fontFamily: "Roboto"
-                  }}
+                <TextField
+                  type="text"
+                  placeholder="Workout Name"
+                  name="name"
+                  value={workout.name}
+                  onChange={handleChanges}
+                />
+                <TextField
+                  type="number"
+                  placeholder="Duration (mins)"
+                  name="duration"
+                  value={workout.duration}
+                  onChange={handleChanges}
+                />
+                <TextField
+                  type="date"
+                  placeholder="Date"
+                  name="date"
+                  value={workout.date}
+                  onChange={handleChanges}
                 />
                 <button
-                  onClick={() => {
-                    setIsEditingName(false);
+                  onClick={e => {
+                    setIsEditing(false);
+                    updateWorkout(e);
                   }}
                 >
                   Save
@@ -93,7 +121,7 @@ const Workout = ({ match }) => {
                   action={
                     <ListItemIcon
                       onClick={() => {
-                        setIsEditingName(true);
+                        setIsEditing(true);
                       }}
                     >
                       <EditIcon />
@@ -102,27 +130,6 @@ const Workout = ({ match }) => {
                 />
               </>
             )}
-
-            {/* {isEditing ? (
-            <ListItemIcon
-              button
-              onClick={() => {
-                setIsEditing(false);
-                updateWorkout(workoutInfo, workout._id);
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              <CheckRoundedIcon />
-            </ListItemIcon>
-          ) : (
-            <ListItemIcon
-              onClick={() => {
-                setIsEditing(true);
-              }}
-            >
-              <EditIcon />
-            </ListItemIcon>
-          )} */}
 
             <List>
               {workout.exercises.length > 0

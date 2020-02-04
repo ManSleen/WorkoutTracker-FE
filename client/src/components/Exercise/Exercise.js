@@ -17,6 +17,7 @@ import TextField from "@material-ui/core/TextField";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import CheckRoundedIcon from "@material-ui/icons/CheckRounded";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -85,6 +86,10 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
       <ListItem button onClick={handleClick}>
         {isEditing ? (
           <TextField
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
             onChange={handleChanges}
             type="text"
             value={exerciseName}
@@ -97,24 +102,36 @@ const Exercise = ({ exercise, workoutId, getWorkout }) => {
 
             <ListItemText primary={exercise.name} />
 
-            <ListItemIcon onClick={() => setIsEditing(true)}>
+            <ListItemIcon
+              onClick={e => {
+                setIsEditing(true);
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
               <EditIcon />
             </ListItemIcon>
-            <ListItemIcon onClick={e => deleteExercise(e)}>
+            <ListItemIcon
+              onClick={e => {
+                deleteExercise(e);
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
               <DeleteIcon />
             </ListItemIcon>
           </>
         )}
         <span>
           {isEditing && (
-            <button
+            <CheckRoundedIcon
               onClick={e => {
                 setIsEditing(!isEditing);
                 updateExercise(e);
+                e.preventDefault();
+                e.stopPropagation();
               }}
-            >
-              Save
-            </button>
+            />
           )}
         </span>
 

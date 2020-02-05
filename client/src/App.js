@@ -27,22 +27,24 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const login = async user => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const res = await axiosWithAuth().post("/auth/login", user);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", res.data.user._id);
       setUser(res.data.user);
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const register = async user => {
     setIsLoading(true);
     try {
-      await axiosWithAuth().post("/auth/register", user);
+      const res = await axiosWithAuth().post("/auth/register", user);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", res.data.user._id);
     } catch (error) {
       console.log(error);
     }

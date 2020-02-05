@@ -31,7 +31,7 @@ const Register = ({ register, history, setIsLoading }) => {
     setIsLoading(true);
     e.preventDefault();
     await register(credentials);
-    history.push("/login");
+    history.push("/dash");
     setIsLoading(false);
   };
 

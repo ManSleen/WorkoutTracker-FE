@@ -4,12 +4,12 @@ import { axiosWithAuth } from "./util/axiosWithAuth";
 
 import "./App.scss";
 import ProtectedRoute from "./components/ProtectedRoute";
-import LandingPage from "./components/LandingPage.js";
-import Dashboard from "./components/Dashboard.js";
+import LandingPage from "./components/LandingPage/LandingPage.js";
+import Dashboard from "./components/Dashboard/Dashboard.js";
 import Login from "./components/Login.js";
 import Register from "./components/Register.js";
 import Workout from "./components/Workout/Workout";
-import NavBar from "./components/Nav/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
 

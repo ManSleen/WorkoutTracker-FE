@@ -15,14 +15,15 @@ const LandingPage = ({ history }) => {
   const classes = useStyles();
 
   return (
-    <div className="landing-container">
+    <div data-test="landingContainer" className="landing-container">
       {localStorage.getItem("token") && history.push("/dash")}
       <Container maxWidth="sm">
-        <h1>
+        <h1 data-test="landingTitle">
           Sign Up or Log In
           <br /> to start tracking your workouts
         </h1>
         <Button
+          data-test="signUpButton"
           variant="contained"
           component={Link}
           to={"/register"}
@@ -35,6 +36,7 @@ const LandingPage = ({ history }) => {
         <br />
 
         <Button
+          data-test="logInButton"
           variant="contained"
           component={Link}
           to={"/login"}

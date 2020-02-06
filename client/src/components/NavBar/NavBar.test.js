@@ -24,4 +24,9 @@ describe("NavBar component", () => {
     const wrapper = findByTestAttribute(component, "appTitle");
     expect(wrapper.length).toBe(1);
   });
+
+  it("Should render a logo", () => {
+    const wrapper = findByTestAttribute(component, "appLogo");
+    expect(wrapper.length).toBe(1);
+  });
 });

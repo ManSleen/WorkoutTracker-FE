@@ -27,7 +27,7 @@ export const NavBar = ({ history }) => {
     <header data-test="headerComponent" className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <FitnessCenterIcon />
+          <FitnessCenterIcon data-test="appLogo" />
           <Typography
             data-test="appTitle"
             variant="h6"

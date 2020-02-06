@@ -21,14 +21,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const NavBar = ({ history }) => {
+export const NavBar = ({ history }) => {
   const classes = useStyles();
   return (
-    <header className={classes.root}>
+    <header data-test="headerComponent" className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <FitnessCenterIcon />
           <Typography
+            data-test="appTitle"
             variant="h6"
             title="Workout Tracker"
             color="inherit"

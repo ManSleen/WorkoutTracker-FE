@@ -9,7 +9,7 @@ import Dashboard from "./components/Dashboard.js";
 import Login from "./components/Login.js";
 import Register from "./components/Register.js";
 import Workout from "./components/Workout/Workout";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Nav/NavBar";
 import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
 

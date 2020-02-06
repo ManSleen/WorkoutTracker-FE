@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 const NavBar = ({ history }) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <header className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <FitnessCenterIcon />
@@ -50,7 +50,7 @@ const NavBar = ({ history }) => {
           )}
         </Toolbar>
       </AppBar>
-    </div>
+    </header>
   );
 };
 

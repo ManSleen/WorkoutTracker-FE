@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import List from "@material-ui/core/List";
 import { makeStyles } from "@material-ui/core/styles";
-import { axiosWithAuth } from "../util/axiosWithAuth";
-import { UserContext } from "../context/UserContext";
-import WorkoutForm from "./Workout/WorkoutForm";
-import WorkoutCard from "./Workout/WorkoutCard";
+import { axiosWithAuth } from "../../util/axiosWithAuth";
+import { UserContext } from "../../context/UserContext";
+import WorkoutForm from "./../Workout/WorkoutForm";
+import WorkoutCard from "./../Workout/WorkoutCard";
 import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";

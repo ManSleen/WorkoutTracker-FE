@@ -101,7 +101,7 @@ const Dashboard = ({ setIsLoading }) => {
       <UserContext.Provider
         value={{ userInfo: userInfo, addWorkout: addWorkout }}
       >
-        <div style={{ paddingTop: "40px" }}>
+        <div data-test="dashboardContainer" style={{ paddingTop: "40px" }}>
           <Container>
             {userInfo && (
               <>

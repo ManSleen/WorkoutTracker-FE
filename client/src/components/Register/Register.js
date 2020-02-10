@@ -36,10 +36,15 @@ const Register = ({ register, history, setIsLoading }) => {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit} className={classes.root}>
+    <div data-test="registerContainer">
+      <h1 data-test="registerTitle">Sign Up</h1>
+      <form
+        data-test="registerForm"
+        onSubmit={handleSubmit}
+        className={classes.root}
+      >
         <TextField
+          data-test="usernameField"
           type="text"
           name="username"
           placeholder="Username"
@@ -49,6 +54,7 @@ const Register = ({ register, history, setIsLoading }) => {
         />
         <br />
         <TextField
+          data-test="passwordField"
           type="password"
           name="password"
           placeholder="Password"
@@ -58,6 +64,7 @@ const Register = ({ register, history, setIsLoading }) => {
         />
         <br />
         <TextField
+          data-test="bioField"
           name="bio"
           placeholder="Bio"
           value={bio}
@@ -69,6 +76,7 @@ const Register = ({ register, history, setIsLoading }) => {
         <br />
 
         <Button
+          data-test="registerSubmitButton"
           variant="contained"
           color="primary"
           className={classes.button}

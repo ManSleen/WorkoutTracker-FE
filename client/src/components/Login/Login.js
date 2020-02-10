@@ -36,10 +36,15 @@ const Login = ({ login, history, setIsLoading }) => {
   };
 
   return (
-    <div>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit} className={classes.root}>
+    <div data-test="loginContainer">
+      <h1 data-test="loginTitle">Log In</h1>
+      <form
+        data-test="loginForm"
+        onSubmit={handleSubmit}
+        className={classes.root}
+      >
         <TextField
+          data-test="usernameField"
           type="text"
           name="username"
           placeholder="Username"
@@ -49,6 +54,7 @@ const Login = ({ login, history, setIsLoading }) => {
         />
         <br />
         <TextField
+          data-test="passwordField"
           type="password"
           name="password"
           placeholder="Password"
@@ -59,6 +65,7 @@ const Login = ({ login, history, setIsLoading }) => {
 
         <br />
         <Button
+          data-test="loginSubmitButton"
           variant="contained"
           color="primary"
           className={classes.button}

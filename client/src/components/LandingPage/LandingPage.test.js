@@ -8,7 +8,7 @@ const setup = (props = {}) => {
   return component;
 };
 
-describe("NavBar component", () => {
+describe("LandingPage component", () => {
   let component;
 
   beforeEach(() => {
